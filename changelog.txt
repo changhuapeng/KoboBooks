@@ -1,0 +1,62 @@
+[B]Version 1.0.0[/B] - 1 January 2015
+Initial release
+s
+[B]Version 1.1.0[/B] - 27 November 2016
+Fix: Site changes to series and comments.
+
+[B]Version 1.2.0[/B] - 9 April 2017
+Fix: Site changes for search.
+Fix: Site changes for the details page.
+
+[B]Version 1.2.1[/B] - 10 April 2017
+Fix: Remove creation of debugging file.
+
+[B]Version 1.3.0[/B] - 02 October 2017
+Fix: Site changes for series info.
+Fix: Workaround for search page differences.
+
+[B]Version 1.4.0[/B] - 10 November 2018
+Fix: Wasn't handling case where there were no tags/genres.
+Fix: Missed fetching ISBN if there was an "Imprint".
+New: Add support for fetching languages and rating and get high resolution cover. Based on code by MR member @qsxwdc
+Change: Try for better support of other languages in search. Based on suggestion by MR member @Aerandir14
+New: Add id_from_url to return the identifier.
+
+[B]Version 1.5.0[/B] - 31 December 2018
+Change: Handle country specific URLs in id_from_url. 
+Change: Use HTTPS instead of HTTP. 
+Change: Remove Python warning 
+
+[B]Version 1.6.0[/B] - 29 March 2019
+Fix: Page changes meaning errors getting publishing details and ISBN.
+
+[B]Version 1.7.0[/B] - 14 July 2019
+Fix: Remove "sanitize_comments_html" from comments to workaround change in this in calibre 3.42.0.
+Fix: If Kobo has no authors, do not reject.
+Fix: Page layout change.
+
+[B]Version 1.8.0[/B] - 08 January 2020
+Update: Changes for Python 3 support in calibre.
+Fix: Wasn't encoding the author properly in the query.
+
+[B]Version 1.8.1[/B] - 20 March 2021
+Fix: Change in tags around the title on both the details and search results pages.
+
+[B]Version 1.8.2[/B] - 20 March 2021
+Fix: Remove debugging statement that was left in.
+
+[B]Version 1.8.3[/B] - 01 November 2021
+Fix: Bot protection seems to have been added. Need to use a different user agent to get around it.
+
+[B]Version 1.8.4[/B] - 03 November 2021
+Fix: Strip "Nummer" from the series info.
+
+[B]Version 1.9.0[/B] - 05 April 2022
+Fix: Site change for Series info
+Fix: Set some request headers to one that the site seems to find acceptable.
+
+[B]Version 1.9.1[/B] - 16 June 2022
+Fix: Site change for Publisher.
+
+[B]Version 1.9.2[/B] - 25 June 2022
+Fix: Site change for title.
