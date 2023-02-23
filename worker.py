@@ -374,7 +374,9 @@ class Worker(Thread):  # Get details
         return cover_node
 
     def parse_language(self, root):
-        lang_node = root.xpath('//div[@class="bookitem-secondary-metadata"]/ul/li')[3]
+        lang_node = root.xpath(
+            '//div[@class="bookitem-secondary-metadata"]/ul/li[contains(text(), "Language:")]'
+        )[0]
         if lang_node.text.strip() == "Language:":
             language = lang_node.xpath("./span")[0].text
             self.log('parse_language - language: "%s" ' % (language))
