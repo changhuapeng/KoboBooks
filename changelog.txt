@@ -23,9 +23,9 @@ Change: Try for better support of other languages in search. Based on suggestion
 New: Add id_from_url to return the identifier.
 
 [B]Version 1.5.0[/B] - 31 December 2018
-Change: Handle country specific URLs in id_from_url. 
-Change: Use HTTPS instead of HTTP. 
-Change: Remove Python warning 
+Change: Handle country specific URLs in id_from_url.
+Change: Use HTTPS instead of HTTP.
+Change: Remove Python warning
 
 [B]Version 1.6.0[/B] - 29 March 2019
 Fix: Page changes meaning errors getting publishing details and ISBN.
@@ -60,3 +60,8 @@ Fix: Site change for Publisher.
 
 [B]Version 1.9.2[/B] - 25 June 2022
 Fix: Site change for title.
+
+[B]Version 1.10.0[/B] - 24 February 2023
+Fix: Site change for release date, publisher, ratings and language
+Change: Fetch metadata directly if book has only ISBN identifier
+Update: Fall-back method to get series and genre info

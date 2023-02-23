@@ -33,7 +33,7 @@ class KoboBooks(Source):
     name = "Kobo Books"
     description = "Downloads metadata and covers from kobobooks.com"
     author = "David Forrester"
-    version = (1, 9, 2)
+    version = (1, 10, 0)
     minimum_calibre_version = (0, 8, 0)
 
     ID_NAME = "kobo"
