@@ -224,7 +224,7 @@ class Worker(Thread):  # Get details
 
     def parse_kobobooks_id(self, url):
         return re.search(
-            KoboBooks.STORE_DOMAIN + KoboBooks.BOOK_PATH + "(.*)", url
+            KoboBooks.STORE_DOMAIN + ".*" + KoboBooks.BOOK_PATH + "(.*)", url
         ).groups(0)[0]
         # return re.search('store.kobobooks.com/en-US/ebook/(.*)', url).groups(0)[0]
 

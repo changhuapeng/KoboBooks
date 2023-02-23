@@ -219,7 +219,8 @@ class KoboBooks(Source):
                 return
             try:
                 log.info("Querying: %s" % query)
-                raw = br.open_novisit(query, timeout=timeout).read()
+                response = br.open_novisit(query, timeout=timeout)
+                raw = response.read()
                 # raw = br.open(query, timeout=timeout).read()
                 # open('E:\\t.html', 'wb').write(raw)
             except Exception as e:
@@ -227,9 +228,26 @@ class KoboBooks(Source):
                 log.exception(err)
                 return as_unicode(e)
             root = fromstring(clean_ascii_chars(raw))
-            # Now grab the match from the search result, provided the
-            # title appears to be for the same book
-            self._parse_search_results(log, title, root, matches, timeout)
+
+            # If we have an ISBN then we have to check if Kobo redirected
+            # us from the search result straight to the URL for that book.
+            isbn = check_isbn(identifiers.get("isbn", None))
+            if isbn:
+                query_path = query.replace(
+                    "%s%s" % (KoboBooks.BASE_URL, KoboBooks.SEARCH_PATH), ""
+                )
+                query_result = response.geturl()
+                if query_path not in query_result:
+                    matches.append(
+                        (
+                            query_result,
+                            None,
+                        )
+                    )
+            else:
+                # Now grab the match from the search result, provided the
+                # title appears to be for the same book
+                self._parse_search_results(log, title, root, matches, timeout)
 
         if abort.is_set():
             return
