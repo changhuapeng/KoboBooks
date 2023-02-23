@@ -172,18 +172,51 @@ class Worker(Thread):  # Get details
                             "Error parsing page for ISBN: url=%r" % self.url
                         )
 
+                    book_details = page_json["googleBook"]
+                    book_metadata = json.loads(book_details, strict=False)
+                    # self.log("Result book_metadata=", book_metadata)
+
+                    try:
+                        series = book_metadata["workExample"]["alternativeHeadline"]
+                        if series:
+                            series_info = series.split(" Book ")
+                            series_name = series_info[0]
+                            series_index = series_info[1]
+                            mi.series = series_name
+                            mi.series_index = series_index
+                            self.log(
+                                "series from JSON: series_name=%s, series_index=%s"
+                                % (series_name, series_index)
+                            )
+                    except:
+                        self.log.exception(
+                            "Error parsing page for series: url= %r" % self.url
+                        )
+
+                    try:
+                        tagList = book_metadata["genre"]
+                        if len(tagList) > 0:
+                            mi.tags = tagList
+                            self.log("tags from JSON: %s" % mi.tags)
+                    except:
+                        self.log.exception(
+                            "Error parsing page for tags: url= %r" % self.url
+                        )
+
             else:
                 self.log("No JSON found for book details metadata????")
         except Exception as e:
             self.log("Exception thrown getting JSON:", e)
 
         try:
-            (mi.series, mi.series_index) = self.parse_series(root)
+            if mi.series is None:
+                (mi.series, mi.series_index) = self.parse_series(root)
         except:
             self.log.exception("Error parsing series for url: %r" % self.url)
 
         try:
-            mi.tags = self.parse_tags(root)
+            if len(mi.tags) == 0:
+                mi.tags = self.parse_tags(root)
         except:
             self.log.exception("Error parsing tags for url: %r" % self.url)
 
