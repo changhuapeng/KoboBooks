@@ -91,6 +91,7 @@ class Worker(Thread):  # Get details
         self.parse_details(root)
 
     def parse_details(self, root):
+        self.log()
         try:
             kobobooks_id = self.parse_kobobooks_id(self.url)
             self.log('parse_details - kobobooks_id: "%s" ' % (kobobooks_id))
@@ -126,18 +127,22 @@ class Worker(Thread):  # Get details
         mi.set_identifier("kobo", kobobooks_id)
         self.kobobooks_id = kobobooks_id
 
-        # Some of the metadata is in a JSON object in script tag.
+        # Some of the metadata is in a JSON object in div[@data-kobo-gizmo-config] tag.
         try:
             import json
 
-            scripts = root.xpath(
-                '//div[@data-kobo-widget="RatingAndReviewWidget"]/script'
+            results = root.xpath(
+                '//div[@data-kobo-gizmo="RatingAndReviewWidget"]/@data-kobo-gizmo-config'
             )
-            if len(scripts) > 0:
-                json_details = scripts[1].text
+
+            if len(results) > 0:
+                json_details = results[0]
                 if json_details is not None:
-                    page_metadata = json.loads(json_details, strict=False)
-                    self.log("Script page_metadata=", page_metadata)
+                    page_json = json.loads(json_details, strict=False)
+
+                    page_details = page_json["googleProduct"]
+                    page_metadata = json.loads(page_details, strict=False)
+                    # self.log("Result page_metadata=", page_metadata)
                     # self.log("Script page_metadata keys=", page_metadata.keys())
                     try:
                         pubdate = page_metadata["releasedate"]
@@ -163,12 +168,14 @@ class Worker(Thread):  # Get details
                         if isbn:
                             self.isbn = mi.isbn = isbn
                     except:
-                        self.log.exception("Error parsing ISBN for url: %r" % self.url)
+                        self.log.exception(
+                            "Error parsing page for ISBN: url=%r" % self.url
+                        )
 
             else:
-                self.log("No scripts founds for book details metadata????")
+                self.log("No JSON found for book details metadata????")
         except Exception as e:
-            self.log("Exception thrown getting scripts:", e)
+            self.log("Exception thrown getting JSON:", e)
 
         try:
             (mi.series, mi.series_index) = self.parse_series(root)

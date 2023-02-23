@@ -31,7 +31,7 @@ from six import text_type as unicode
 
 class KoboBooks(Source):
     name = "Kobo Books"
-    description = _("Downloads metadata and covers from kobobooks.com")
+    description = "Downloads metadata and covers from kobobooks.com"
     author = "David Forrester"
     version = (1, 9, 2)
     minimum_calibre_version = (0, 8, 0)
@@ -55,7 +55,7 @@ class KoboBooks(Source):
     has_html_comments = True
     supports_gzip_transfer_encoding = True
 
-    STORE_DOMAIN = "store.kobobooks.com"
+    # STORE_DOMAIN = "store.kobobooks.com"
     STORE_DOMAIN = "www.kobo.com"
     BASE_URL = "https://" + STORE_DOMAIN
     BOOK_PATH = "/ebook/"
@@ -67,9 +67,9 @@ class KoboBooks(Source):
     # SEARCH_PATH = '/au/sv/search'
 
     CATEGORY_HANDLING = {
-        "top_level_only": _("Top level only"),
-        "hierarchy": _("Hierarchy"),
-        "individual_tags": _("Individual tags"),
+        "top_level_only": "Top level only",
+        "hierarchy": "Hierarchy",
+        "individual_tags": "Individual tags",
     }
 
     options = (
@@ -77,8 +77,8 @@ class KoboBooks(Source):
             "category_handling",
             "choices",
             "individual_tags",
-            _("Category handling:"),
-            _("How to handle categories if they have more than one level."),
+            "Category handling:",
+            "How to handle categories if they have more than one level.",
             choices=CATEGORY_HANDLING,
         ),
     )
@@ -151,7 +151,7 @@ class KoboBooks(Source):
         q = ""
         isbn = check_isbn(identifiers.get("isbn", None))
         if isbn is not None:
-            q = "Query=%s&fcmedia=Book" % isbn
+            q = "query=%s&fcmedia=Book" % isbn
         elif title:
             log('create_query - title: "%s"' % (title))
             title = get_udc().decode(title)
@@ -169,9 +169,10 @@ class KoboBooks(Source):
                 for t in tokens
             ]
             q = "+".join(tokens)
-            q = "Query=%s&fcmedia=Book" % q
+            q = "query=%s&fcmedia=Book" % q
         if not q:
             return None
+
         return "%s%s?%s&fclanguages=all" % (
             KoboBooks.BASE_URL,
             KoboBooks.SEARCH_PATH,
@@ -199,6 +200,7 @@ class KoboBooks(Source):
         # Instead we will go straight to the URL for that book.
         kobobooks_id = identifiers.get(self.ID_NAME, None)
         br = self.get_browser()
+
         if kobobooks_id:
             matches.append(
                 (
@@ -299,7 +301,7 @@ class KoboBooks(Source):
         max_results = 5
         for data in root.xpath('//div[@class="SearchResultsWidget"]/section/div/ul/li'):
             # log.error('data: %s' % (tostring(data)))
-            try:  # Seem to be getting two different search results pages. Try the most ccmmon first.
+            try:  # Seem to be getting two different search results pages. Try the most common first.
                 item_info = data.xpath('./div/div/div[@class="item-info"]')[0]
                 log.error("used three divs item_info")
             except:
