@@ -331,9 +331,7 @@ class Worker(Thread):  # Get details
         self.log("parse_comments - no comments found.")
 
     def parse_rating(self, root):
-        rating_node = root.xpath(
-            '//div[@class="rating-review-summary-header"]/section[@class="overall-rating-container"]/@data-rating-value'
-        )
+        rating_node = root.xpath('//meta[@property="og:rating"]/@content')
         if rating_node:
             try:
                 rating_text = rating_node[0]
