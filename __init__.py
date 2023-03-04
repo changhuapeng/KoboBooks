@@ -232,7 +232,7 @@ class KoboBooks(Source):
             # If we have an ISBN then we have to check if Kobo redirected
             # us from the search result straight to the URL for that book.
             isbn = check_isbn(identifiers.get("isbn", None))
-            if isbn:
+            if isbn is not None:
                 query_path = query.replace(
                     "%s%s" % (KoboBooks.BASE_URL, KoboBooks.SEARCH_PATH), ""
                 )
