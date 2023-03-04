@@ -65,3 +65,7 @@ Fix: Site change for title.
 Fix: Site change for release date, publisher, ratings and language
 Change: Fetch metadata directly if book has only ISBN identifier
 Update: Fall-back method to get series and genre info
+
+[B]Version 1.10.1[/B] - 04 March 2023
+Fix: Remove fall-back method for fetching series info due to its unreliability
+Fix: Check when book has invalid ISBN identifier
