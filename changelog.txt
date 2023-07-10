@@ -69,3 +69,6 @@ Update: Fall-back method to get series and genre info
 [B]Version 1.10.1[/B] - 04 March 2023
 Fix: Remove fall-back method for fetching series info due to its unreliability
 Fix: Check when book has invalid ISBN identifier
+
+[B]Version 1.10.2[/B] - 10 July 2023
+Fix: Site change for book cover image
