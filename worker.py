@@ -372,12 +372,10 @@ class Worker(Thread):  # Get details
         cover_node = root.xpath(
             '//div[@class="main-product-image"]//img[contains(@class,"cover-image")]/@src'
         )[0]
-        cover_node_text = "%s %s" % ("http:", cover_node)
+        cover_node_text = "%s %s" % ("https:", cover_node)
         cover_node_split = cover_node_text.split("/")
-        cover_width_upsized = int(cover_node_split[4]) * 4
-        cover_height_upsized = int(cover_node_split[5]) * 4
-        cover_node_split[4] = str(nwidth)
-        cover_node_split[5] = str(nheight)
+        cover_node_split[-5] = str(nwidth)
+        cover_node_split[-4] = str(nheight)
         cover_node = "/".join(cover_node_split).replace(" ", "")
 
         # if cover_node:
